@@ -1,5 +1,7 @@
 import json
 import requests
+from settings import TOKEN
+
 from pprint import pprint
 #Самый умный из троих: Hulk, Captain America, Thanos.
 #
@@ -24,8 +26,9 @@ from pprint import pprint
 
 
 # Задание №2
-token = 'token.txt'
+
 class YaUploader:
+
     def __init__(self, token: str):
         self.token = token
 
@@ -34,21 +37,23 @@ class YaUploader:
             'Content-Type': 'application/json',
             'Authorization': f'OAuth {self.token}'}
 
-    def upload(self, file_path: str):
+    def upload(self, local_path, ya_path):
+        ya_path = local_path
         """Метод загружает файлы по списку file_list на яндекс диск"""
-        print('2')
-        # Тут ваша логика
-        # Функция может ничего не возвращать
+        upload_url = self.get_link(ya_path)
+        response = requests.put(upload_url, data=open(local_path, 'rb'), headers=self.get_headers())
+        if response.status_code == 201:
+            print(f'Загрузка файла',
+            local_path, 'прошла успешно!')
 
     def get_link(self, path):
         uri = 'https://cloud-api.yandex.net/v1/disk/resources/upload'
         params = {'path': path, 'overwrite': True}
         response = requests.get(uri, headers=self.get_headers(), params=params)
-        return response
+        # print(response.json())
+        return response.json()['href']
 
 if __name__ == '__main__':
-    # Получить путь к загружаемому файлу и токен от пользователя
-    path_to_file = 'test.txt'
-    uploader = YaUploader(token)
-    result = uploader.upload(path_to_file)
-    print('1')
+    ya = YaUploader(TOKEN)
+    ya.upload('test.txt', '1.txt')
+
