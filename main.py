@@ -1,27 +1,27 @@
 import json
 import requests
 from settings import TOKEN
-
 from pprint import pprint
-#Самый умный из троих: Hulk, Captain America, Thanos.
-#
-# url = requests.get('https://akabab.github.io/superhero-api/api/all.json')
-# res = json.loads(url.text)
-# superheroes = {}
-# for x in res:
-#     name = x.get('name')
-#     pwrst = x.get('powerstats')
-#     superheroes.update({name: pwrst.get('intelligence')})
-#
-# top_heroes = []
-# heroes = ['Hulk', 'Thanos', ' Captain America']
-# for item in superheroes.items():
-#     name, intell = item
-#     if name in heroes:
-#             top_heroes.append(list(item))
-#
-# top_heroes.sort(reverse=True)
-# print(top_heroes[0][0])
+
+# Самый умный из троих: Hulk, Captain America, Thanos.
+
+url = requests.get('https://akabab.github.io/superhero-api/api/all.json')
+res = json.loads(url.text)
+superheroes = {}
+for x in res:
+    name = x.get('name')
+    pwrst = x.get('powerstats')
+    superheroes.update({name: pwrst.get('intelligence')})
+
+top_heroes = []
+heroes = ['Hulk', 'Thanos', ' Captain America']
+for item in superheroes.items():
+    name, intell = item
+    if name in heroes:
+            top_heroes.append(list(item))
+
+top_heroes.sort(reverse=True)
+print(top_heroes[0][0])
 
 
 
@@ -54,6 +54,8 @@ class YaUploader:
         return response.json()['href']
 
 if __name__ == '__main__':
+    file_list = ['test.txt', 'test2.txt']
     ya = YaUploader(TOKEN)
-    ya.upload('test.txt', '1.txt')
+    for x in file_list:
+        ya.upload(x, 'name')
 
