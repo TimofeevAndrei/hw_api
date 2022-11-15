@@ -15,8 +15,7 @@ top_heroes = []
 heroes = ['Hulk', 'Thanos', ' Captain America']
 for item in superheroes.items():
     name, intell = item
-    for i in heroes:
-        if name == i:
+    if name in heroes:
             top_heroes.append(list(item))
 
 top_heroes.sort(reverse=True)
